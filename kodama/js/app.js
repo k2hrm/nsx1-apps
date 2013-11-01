@@ -148,11 +148,11 @@ recognition.onaudioend = function(event) {
 recognition.onerror = function(event) {
     switch(event.error) {
       case "not-allowed":
-        document.getElementById("divMicInputWarning").innerHTML="ブラウザのマイク入力の許可が必要です。アドレスバーのビデオアイコンをクリックしてマイクの利用を許可してください。<br>--<br>Mic Input is not allowd in your browser. Check the mic permission in addres bar.";
+        document.getElementById("divMicInputWarning").innerHTML="ブラウザのマイク入力の許可が必要です。アドレスバーのビデオアイコンをクリックしてマイクの利用を許可してください。<br>--<br>Mic Input is not allowd in your browser. Check the mic permission in address bar.";
         document.getElementById("divMicInputWarning").className="alert alert-danger";
         break;
       case "network":
-        document.getElementById("divMicInputWarning").innerHTML="ネットワークエラーです。アプリケーションのご利用はこのコンピュータがインターネットへ接続されている必要があります。<br>--<br>Network Error. This application needs internet connection. Please connect your computer to the internet.";
+        document.getElementById("divMicInputWarning").innerHTML="ネットワークエラーです。アプリケーションのご利用にはお使いのMac/PCがインターネットへ接続されている必要があります。<br>--<br>Network Error. This application needs internet connection. Please connect your computer to the internet.";
         document.getElementById("divMicInputWarning").className="alert alert-danger";
         break;
     }
