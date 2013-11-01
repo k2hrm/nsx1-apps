@@ -1,0 +1,258 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Kodama Application</title>
+    <link href="./assets/css/bootstrap.css" rel="stylesheet">
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+    <style type="text/css">
+    body { font-family:Arial; padding-top: 0px; }
+    .navbar-inverse {
+      background-color: #222222;
+      border-color: #080808;
+    }
+    .blinkMic {
+      -webkit-animation-name: blinkMic;
+      -webkit-animation-duration: 3s;
+      -webkit-animation-timing-function: ease;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-delay: -2s;
+    }
+    @-webkit-keyframes blinkMic {
+      0% {opacity:1.0;}
+      50% {opacity:0.1;}
+      100% {opacity:1.0;}
+    }
+    .blinkMicR {
+      -webkit-animation-name: blinkMicR;
+      -webkit-animation-duration: 1s;
+      -webkit-animation-timing-function: ease;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-delay: -2s;
+    }
+    @-webkit-keyframes blinkMicR {
+      0% {opacity:1.0;}
+      50% {opacity:0.1;}
+      100% {opacity:1.0;}
+    }
+    #results {
+      font-size: 14px;
+      font-weight: bold;
+      border: 1px solid #ddd;
+      padding: 15px;
+      text-align: left;
+      min-height: 150px;
+      width: 640px;
+      border-radius:5px;
+    }
+    #div_start {
+      float: right;
+      width:0px;
+    }
+    #start_button {
+      border: 0;
+      background-color:transparent;
+      padding: 8px;
+    }
+    #start_img:hover {
+      opacity: 0.8;
+      zoom: 1.05;
+    }
+    .interim {
+      color: gray;
+    }
+    .final {
+      color: black;
+      padding-right: 3px;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div id="wrap" style="margin-top:0px;">
+      <div class="navbar navbar-default navbar-fixed-top" id="navbar.bs">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Kodama Application</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a data-toggle="modal" href="#midiOutSelM" data-toggle="dropdown">MIDI OUT</b></a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a data-toggle="modal" href="#showToU" id="showToUJ">Terms of Use</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      <div class="container" style="width:640px;">
+
+        <div class="container">      
+
+          <div style="width:640px;">
+            <div style="width:165px; float:left;">
+              
+              <div class="input-group" style="width: 120px; float:left;">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Mode <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" id="repeatMode"><span class="glyphicon glyphicon-repeat"></span> Repeat</a></li>
+                    <li><a href="#" id="stepForwardMode"><span class="glyphicon glyphicon-step-forward"></span> Step</a></li>
+                  </ul>
+                </div><!-- /btn-group -->
+                <span class="input-group-addon" id="modeName"><span class="glyphicon glyphicon-repeat"></span> Repeat</span>
+              </div><!-- /input-group -->
+              
+            </div>
+            
+            <div style="width:475px; float:left;">
+              <div style="width:475px;">
+                <div style="float:right; margin-bottom: 6px;">
+                  <div style="float:right;"><input id="resetAllController" class="btn btn-warning panicButton" type="button" value="Panic"></div>
+                </div>
+                
+                <div style="float:right; margin-bottom: 6px;">
+                  <div class="btn-group" style="margin-right:12px;">
+                    <button type="button" class="btn btn-default" id="start" style="height:34px; width:120px;" disabled="disabled"><span id="startButton" class="glyphicon glyphicon-play"></span></button>
+                  </div>
+                </div>
+                
+                <div style="width:240px; float:left; margin:0px 0px 6px 30px;">
+                  <div>
+                    <div id="divSetOutput" href="#showToU" style=" height:34px; background-color:#f0f0f0; border: 1px solid #e4e4e4; border-radius:3px; padding: 5px;"><span class="glyphicon glyphicon-log-out"></span><span id="setOutput" style="padding-left:8px;"></span></div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+          
+          <br style="clear:both;">
+          
+          <div id="div_start">
+            <div id="start_img" style="width:40px; height:40px; background-image:url(images/mic02.png); background-position:left top; margin:8px;"></div>
+          </div>
+          <div id="results">
+            <span class="final" id="final_span"></span> <span class="interim" id="interim_span"></span>
+          </div>                              
+
+
+          <div id="kanji" class="alert alert-warning" style="width:640px; margin-top:6px; visibility:hidden;">ごめんなさい。ひらがなしかよめません。</div>
+
+        </div>
+      </div>
+
+
+
+
+      
+      <!-- MIDI IN -->
+      <div class="modal fade" id="midiInSelM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="close">&times;</button>
+              <h4 class="modal-title"><span class="glyphicon glyphicon-log-in"></span> Set MIDI IN Device & MIDI Channel</h4>
+            </div>
+            <div class="modal-body">
+              <div class="input-group input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-log-in"></span> MIDI IN</span>
+                <select id="midiInSel" type="text" class="form-control input"></select>
+              </div><!-- /.input-group .input-group -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="close">Close</button>
+              <button type="button" class="btn btn-primary" id="midiInSelB">Set MIDI IN</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      
+      <!-- MIDI OUT -->
+      <div class="modal fade" id="midiOutSelM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="close">&times;</button>
+              <h4 class="modal-title"><span class="glyphicon glyphicon-log-out"></span> Set MIDI OUT</h4>
+            </div>
+            <div class="modal-body">
+              <div id="divMidiOutSelWarning"></div>
+              <select id="midiOutSel" type="text" class="form-control"></select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="close">Close</button>
+              <button type="button" class="btn btn-primary" id="midiOutSelB">Set MIDI OUT</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <!-- MIC Input Error -->
+      <div class="modal fade" id="micInputErrorM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="close">&times;</button>
+              <h4 class="modal-title"><span class="glyphicon glyphicon-ban-circle"></span> Error</h4>
+            </div>
+            <div class="modal-body">
+              <div id="divMicInputWarning"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="close">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <!--ToU -->
+      <div class="modal fade" id="showToU" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content" style="width:640px;">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title"><span class="glyphicon glyphicon-check"></span> Terms of Use</h4>
+            </div>
+            <div class="modal-body">
+              <textarea id="regContent" style="width:600px; height:260px;"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <div style="margin-top:10px;"></div>
+
+
+
+      
+    </div><!-- /.wrap -->
+    
+    
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted credit">Copyright (c) 2013 Yamaha Corporation. All rights reserved.</p>
+      </div>
+    </div>
+
+
+    <script type="text/javascript" src="./assets/js/jquery.js"></script>
+    <script type="text/javascript" src="./dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/WebMIDIAPI.js"></script>
+    <script type="text/javascript" src="./js/nsx1.js"></script>
+    <script type="text/javascript" src="./js/regulation.js"></script>
+    <script type="text/javascript" src="./js/app.js"></script>
+
+
+  </body>
+</html>
